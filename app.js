@@ -141,9 +141,9 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(chatId, welcomeText, {
     parse_mode: 'Markdown',
     reply_markup: {
-      inline_keyboard: [[
-        { text: '📱 Открыть приложение', web_app: { url: `https://${process.env.DOMAIN || 'localhost'}` } }
-      ]]
+        inline_keyboard: [[
+          { text: '📱 Открыть приложение', web_app: { url: 'https://psymatrix_bot.bothost.ru' } }
+        ]]
     }
   });
 });
