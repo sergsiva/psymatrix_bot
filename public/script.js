@@ -1,7 +1,6 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-// ========== УПРАВЛЕНИЕ ЭКРАНАМИ ==========
 const screens = {
     input: document.getElementById('inputScreen'),
     loading: document.getElementById('loadingScreen'),
@@ -15,7 +14,6 @@ function showScreen(screenName) {
     if (screens[screenName]) screens[screenName].classList.add('active');
 }
 
-// ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', () => {
     showScreen('input');
     
@@ -39,7 +37,7 @@ function initDateFormatter() {
 }
 
 // ============================================
-// ОСНОВНАЯ ФУНКЦИЯ РАСЧЕТА
+// ОСНОВНАЯ ФУНКЦИЯ (ТЕПЕРЬ БЕЗ ТЕСТОВЫХ ДАННЫХ)
 // ============================================
 function calculateMatrix() {
     const birthdate = document.getElementById('birthdate').value;
@@ -51,18 +49,31 @@ function calculateMatrix() {
     
     showScreen('loading');
     
-    // ОТКРЫВАЕМ ТВОЕГО БОТА С ДАТОЙ
-    tg.openTelegramLink(`https://t.me/psycodematrix_bot?start=${birthdate}`);
+    // Отправляем данные боту
+    tg.sendData(JSON.stringify({ birthdate }));
     
-    // Показываем тестовый результат через 2 секунды
+    // Ждём ответ
+    Telegram.WebApp.onEvent('webAppData', (eventData) => {
+        try {
+            const result = JSON.parse(eventData.data);
+            if (result.error) {
+                tg.showAlert('❌ ' + result.error);
+                showScreen('input');
+            } else {
+                displayResult(result);
+            }
+        } catch (e) {
+            console.error(e);
+            tg.showAlert('❌ Ошибка обработки ответа');
+            showScreen('input');
+        }
+    });
+    
+    // Таймаут на случай ошибки
     setTimeout(() => {
-        const testResult = {
-            date: birthdate,
-            matrix: {1:3, 2:1, 3:2, 4:1, 5:2, 6:0, 7:2, 8:1, 9:1},
-            work_numbers: [37, 10, 35, 8]
-        };
-        displayResult(testResult);
-    }, 2000);
+        tg.showAlert('⚠️ Бот не ответил. Попробуйте позже.');
+        showScreen('input');
+    }, 5000);
 }
 
 function displayResult(result) {
