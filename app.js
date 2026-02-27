@@ -102,35 +102,40 @@ bot.onText(/\/start/, (msg) => {
   });
 });
 
-// ⚡️ ОБРАБОТКА ДАННЫХ ИЗ MINI APP ⚡️
-bot.on('web_app_data', (msg) => {
-  const chatId = msg.chat.id;
-  const data = msg.web_app_data.data;
+// ============================================
+// УНИВЕРСАЛЬНЫЙ ЛОГГЕР (все сообщения)
+// ============================================
+bot.on('message', (msg) => {
+    console.log('🔵 ВСЕ сообщения:', JSON.stringify(msg, null, 2));
+  });
   
-  console.log('📲 Получены данные из Mini App:', data);
-  
-  try {
-    const parsed = JSON.parse(data);
-    const birthdate = parsed.birthdate;
-    
-    const result = calculateMatrix(birthdate);
-    
-    if (result.success) {
-      // Отправляем результат обратно в Mini App
-      bot.sendMessage(chatId, JSON.stringify(result), {
-        reply_to_message_id: msg.message_id
-      });
+  // ============================================
+  // ОБРАБОТКА ДАННЫХ ИЗ MINI APP
+  // ============================================
+  bot.on('message', (msg) => {
+    if (msg.web_app_data) {
+      const data = msg.web_app_data.data;
+      console.log('📲 Данные из Mini App:', data);
       
-      console.log('✅ Результат отправлен в Mini App');
-    } else {
-      bot.sendMessage(chatId, JSON.stringify({ error: result.error }), {
-        reply_to_message_id: msg.message_id
-      });
+      try {
+        const parsed = JSON.parse(data);
+        const birthdate = parsed.birthdate;
+        const result = calculateMatrix(birthdate);
+        
+        if (result.success) {
+          bot.sendMessage(msg.chat.id, JSON.stringify(result), {
+            reply_to_message_id: msg.message_id
+          });
+        } else {
+          bot.sendMessage(msg.chat.id, JSON.stringify({ error: result.error }), {
+            reply_to_message_id: msg.message_id
+          });
+        }
+      } catch (e) {
+        console.error('❌ Ошибка обработки:', e);
+      }
     }
-  } catch (e) {
-    console.error('❌ Ошибка обработки:', e);
-  }
-});
+  });
 
 console.log('🤖 Бот запущен!');
 console.log('📱 Mini App доступен по адресу: https://psymatrix.bothost.ru');
