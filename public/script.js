@@ -39,7 +39,7 @@ function initDateFormatter() {
 }
 
 // ============================================
-// ОСНОВНАЯ ФУНКЦИЯ РАСЧЕТА (РАБОЧАЯ)
+// ОСНОВНАЯ ФУНКЦИЯ РАСЧЕТА
 // ============================================
 function calculateMatrix() {
     const birthdate = document.getElementById('birthdate').value;
@@ -51,10 +51,10 @@ function calculateMatrix() {
     
     showScreen('loading');
     
-    // ОТКРЫВАЕМ БОТА С ДАТОЙ (это работает всегда)
-    tg.openTelegramLink(`https://t.me/psymatrix_bot?start=${birthdate}`);
+    // ОТКРЫВАЕМ ТВОЕГО БОТА С ДАТОЙ
+    tg.openTelegramLink(`https://t.me/psycodematrix_bot?start=${birthdate}`);
     
-    // Показываем результат через 2 секунды (тестовый, чтобы не ждать)
+    // Показываем тестовый результат через 2 секунды
     setTimeout(() => {
         const testResult = {
             date: birthdate,
@@ -65,9 +65,6 @@ function calculateMatrix() {
     }, 2000);
 }
 
-// ============================================
-// ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ РЕЗУЛЬТАТА
-// ============================================
 function displayResult(result) {
     console.log("Результат:", result);
     
@@ -79,9 +76,6 @@ function displayResult(result) {
     showScreen('result');
 }
 
-// ============================================
-// ОТОБРАЖЕНИЕ МАТРИЦЫ
-// ============================================
 function displayMatrix(matrix) {
     const grid = document.getElementById('matrixGrid');
     if (!grid) return;
@@ -100,9 +94,6 @@ function displayMatrix(matrix) {
     });
 }
 
-// ============================================
-// ОТОБРАЖЕНИЕ РАБОЧИХ ЧИСЕЛ
-// ============================================
 function displayWorkNumbers(numbers) {
     const grid = document.getElementById('workNumbers');
     if (!grid) return;
