@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" 
+            content="default-src * data: blob: filesystem: about: ws: wss: 'unsafe-inline' 'unsafe-eval'; 
+                    script-src * data: blob: 'unsafe-inline' 'unsafe-eval'; 
+                    connect-src * wss: ws:;">
+    <title>Психоматрица Пифагора</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+
+
+<body>
+    <div class="app">
+        <!-- Шапка -->
+        <header class="header">
+            <h1>🧮 Психоматрица</h1>
+            <p class="subtitle">Расчет матрицы судьбы по дате рождения</p>
+        </header>
+
+        <!-- Основной экран ввода -->
+        <div id="inputScreen" class="screen active">
+            <div class="card">
+                <label class="input-label">📅 Дата рождения</label>
+                <input type="text" id="birthdate" class="date-input" placeholder="ДД.ММ.ГГГГ" maxlength="10">
+                <p class="example">Пример: 15.08.1994</p>
+                
+                <button id="calculateBtn" class="btn btn-primary">
+                    <span class="btn-icon">🔮</span>
+                    Рассчитать матрицу
+                </button>
+            </div>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <span>Детальный анализ</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">💾</span>
+                    <span>История расчетов</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✨</span>
+                    <span>Рекомендации</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран загрузки -->
+        <div id="loadingScreen" class="screen">
+            <div class="loader"></div>
+            <p class="loading-text">Рассчитываем вашу матрицу...</p>
+            <p class="loading-subtext">Это займет несколько секунд</p>
+        </div>
+
+        <!-- Экран результата -->
+        <div id="resultScreen" class="screen">
+            <button id="backBtn" class="back-btn">← Назад</button>
+            
+            <div class="result-header">
+                <h2>Ваша матрица судьбы</h2>
+                <div id="resultDate" class="result-date"></div>
+            </div>
+
+            <!-- Матрица 3x3 -->
+            <div class="matrix-grid" id="matrixGrid">
+                <!-- Заполняется через JS -->
+            </div>
+
+            <!-- Рабочие числа -->
+            <div class="work-numbers">
+                <h3>🔢 Рабочие числа</h3>
+                <div id="workNumbers" class="numbers-grid"></div>
+            </div>
+
+            <!-- Анализ по разделам -->
+            <div class="analysis-tabs">
+                <button class="tab-btn active" data-tab="character">🎭 Характер</button>
+                <button class="tab-btn" data-tab="energy">⚡ Энергия</button>
+                <button class="tab-btn" data-tab="health">💚 Здоровье</button>
+                <button class="tab-btn" data-tab="talents">✨ Таланты</button>
+            </div>
+
+            <!-- Содержимое вкладок -->
+            <div id="tabContent" class="tab-content"></div>
+
+            <!-- Кнопки действий -->
+            <div class="action-buttons">
+                <button id="saveBtn" class="btn btn-secondary">
+                    <span class="btn-icon">💾</span>
+                    Сохранить
+                </button>
+                <button id="shareBtn" class="btn btn-secondary">
+                    <span class="btn-icon">📤</span>
+                    Поделиться
+                </button>
+                <button id="newCalcBtn" class="btn btn-primary">
+                    <span class="btn-icon">🔄</span>
+                    Новый расчет
+                </button>
+            </div>
+        </div>
+
+        <!-- Экран истории (будет позже) -->
+        <div id="historyScreen" class="screen">
+            <!-- Добавим позже -->
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
